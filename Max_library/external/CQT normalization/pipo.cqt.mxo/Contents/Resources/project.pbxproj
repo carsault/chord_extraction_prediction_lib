@@ -1,0 +1,166 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXFileReference section */
+		2198FB77263B296500829ED9 /* .DS_Store */ = {isa = PBXFileReference; lastKnownFileType = file; path = .DS_Store; sourceTree = "<group>"; };
+		2198FB78263B296500829ED9 /* .hg_archival.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = .hg_archival.txt; sourceTree = "<group>"; };
+		2198FB79263B296500829ED9 /* .hgignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .hgignore; sourceTree = "<group>"; };
+		2198FB7A263B296500829ED9 /* .hgtags */ = {isa = PBXFileReference; lastKnownFileType = text; path = .hgtags; sourceTree = "<group>"; };
+		2198FB7B263B296500829ED9 /* _kiss_fft_guts.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = _kiss_fft_guts.h; sourceTree = "<group>"; };
+		2198FB7C263B296500829ED9 /* CHANGELOG */ = {isa = PBXFileReference; lastKnownFileType = text; path = CHANGELOG; sourceTree = "<group>"; };
+		2198FB7D263B296500829ED9 /* COPYING */ = {isa = PBXFileReference; lastKnownFileType = text; path = COPYING; sourceTree = "<group>"; };
+		2198FB7E263B296500829ED9 /* kiss_fft.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = kiss_fft.c; sourceTree = "<group>"; };
+		2198FB7F263B296500829ED9 /* kiss_fft.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = kiss_fft.h; sourceTree = "<group>"; };
+		2198FB80263B296500829ED9 /* kissfft.hh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = kissfft.hh; sourceTree = "<group>"; };
+		2198FB81263B296500829ED9 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		2198FB82263B296500829ED9 /* README */ = {isa = PBXFileReference; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
+		2198FB83263B296500829ED9 /* README.simd */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.simd; sourceTree = "<group>"; };
+		2198FB84263B296500829ED9 /* test */ = {isa = PBXFileReference; lastKnownFileType = folder; path = test; sourceTree = "<group>"; };
+		2198FB85263B296500829ED9 /* TIPS */ = {isa = PBXFileReference; lastKnownFileType = text; path = TIPS; sourceTree = "<group>"; };
+		2198FB86263B296500829ED9 /* tools */ = {isa = PBXFileReference; lastKnownFileType = folder; path = tools; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		2198FB71263B296500829ED9 = {
+			isa = PBXGroup;
+			children = (
+				2198FB77263B296500829ED9 /* .DS_Store */,
+				2198FB78263B296500829ED9 /* .hg_archival.txt */,
+				2198FB79263B296500829ED9 /* .hgignore */,
+				2198FB7A263B296500829ED9 /* .hgtags */,
+				2198FB7B263B296500829ED9 /* _kiss_fft_guts.h */,
+				2198FB7C263B296500829ED9 /* CHANGELOG */,
+				2198FB7D263B296500829ED9 /* COPYING */,
+				2198FB7E263B296500829ED9 /* kiss_fft.c */,
+				2198FB7F263B296500829ED9 /* kiss_fft.h */,
+				2198FB80263B296500829ED9 /* kissfft.hh */,
+				2198FB81263B296500829ED9 /* Makefile */,
+				2198FB82263B296500829ED9 /* README */,
+				2198FB83263B296500829ED9 /* README.simd */,
+				2198FB84263B296500829ED9 /* test */,
+				2198FB85263B296500829ED9 /* TIPS */,
+				2198FB86263B296500829ED9 /* tools */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXLegacyTarget section */
+		2198FB76263B296500829ED9 /* kiss_fft130 */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "$(ACTION)";
+			buildConfigurationList = 2198FB87263B296500829ED9 /* Build configuration list for PBXLegacyTarget "kiss_fft130" */;
+			buildPhases = (
+			);
+			buildToolPath = /usr/bin/make;
+			buildWorkingDirectory = "/Users/schwarz/src/mubu-and-co/common/pipo/modules/constantq/kiss_fft130";
+			dependencies = (
+			);
+			name = kiss_fft130;
+			passBuildSettingsInEnvironment = 1;
+			productName = kiss_fft130;
+		};
+/* End PBXLegacyTarget section */
+
+/* Begin PBXProject section */
+		2198FB72263B296500829ED9 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+			};
+			buildConfigurationList = 2198FB75263B296500829ED9 /* Build configuration list for PBXProject "kiss_fft130" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 2198FB71263B296500829ED9;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				2198FB76263B296500829ED9 /* kiss_fft130 */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin XCBuildConfiguration section */
+		2198FB73263B296500829ED9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx10.6;
+			};
+			name = Debug;
+		};
+		2198FB74263B296500829ED9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				SDKROOT = macosx10.6;
+			};
+			name = Release;
+		};
+		2198FB88263B296500829ED9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DEBUGGING_SYMBOLS = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = kiss_fft130;
+			};
+			name = Debug;
+		};
+		2198FB89263B296500829ED9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = kiss_fft130;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2198FB75263B296500829ED9 /* Build configuration list for PBXProject "kiss_fft130" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2198FB73263B296500829ED9 /* Debug */,
+				2198FB74263B296500829ED9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2198FB87263B296500829ED9 /* Build configuration list for PBXLegacyTarget "kiss_fft130" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2198FB88263B296500829ED9 /* Debug */,
+				2198FB89263B296500829ED9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 2198FB72263B296500829ED9 /* Project object */;
+}

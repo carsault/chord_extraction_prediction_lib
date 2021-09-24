@@ -11,10 +11,17 @@ import utilities.distance as distances
 from utilities.training import wrap_loss_function
 from utilities import Chords2Vec_fun
 from utilities import utils
+from utilities import chordUtil
+from utilities.chordUtil import *
+
+from utilities import ACEmodels
+import torch
+
 from keras.models import load_model
 import numpy as np
 from keras import backend as K
 import pumppExtra as pumpp
+
 
 def invert_dict(d):
     """
@@ -27,21 +34,20 @@ def load_ace_model_keras(alpha, direct = "" ,loss = "tonnetz", seed = ""):
     Load model with the associated alphabets
     Model has to be in the folder ...
     """
-    modelName = "model_conv3article_" + alpha + "_tonnetz"
-    seed = str(seed)
+    modelName = direct.rstrip(".hdf5")
     dictChord = {}
-    with open(direct + 'model_ace_keras' + seed +'/' + modelName + '/' + modelName + '_history.p', 'rb') as pickle_file:
+    with open(modelName + '_history.p', 'rb') as pickle_file:
         history = pickle.load(pickle_file)
-    with open(direct + 'model_ace_keras' + seed +'/' + modelName + '/' + modelName + '_listChord.p', 'rb') as pickle_file:
+    with open(modelName + '_listChord.p', 'rb') as pickle_file:
         list_chord_ace = pickle.load(pickle_file)
-    with open(direct + 'model_ace_keras' + seed +'/' + modelName + '/' + modelName + '_idx_test.p', 'rb') as pickle_file:
+    with open(modelName + '_idx_test.p', 'rb') as pickle_file:
         #idx_test = pd.read_pickle(pickle_file)
         idx_test = "bugAvecPickle"
     for i in range(len(list_chord_ace)):
         dictChord[list_chord_ace[i]] = i
         
     if loss == 'categorical_crossentropy' or loss == 'hinge':
-        ace_model = load_model('model_ace_keras' + seed +'/' + modelName + '/' + modelName + '.hdf5')
+        ace_model = load_model(modelName + '.hdf5')
     elif loss == 'tonnetz':
         tf_mappingR = distances.tonnetz_matrix((invert_dict(dictChord),invert_dict(dictChord)))
         tf_mappingR = (tf_mappingR + np.mean(tf_mappingR))
@@ -49,7 +55,7 @@ def load_ace_model_keras(alpha, direct = "" ,loss = "tonnetz", seed = ""):
         tf_mappingR = (tf_mappingR) / np.max(tf_mappingR)
         tf_mapping = K.constant(tf_mappingR)
         loss=wrap_loss_function(tf_mapping = tf_mapping)
-        ace_model = load_model(direct + 'model_ace_keras' + seed +'/'+ modelName + '/' + modelName + '.hdf5', custom_objects={'loss_function': loss})
+        ace_model = load_model(modelName + '.hdf5', custom_objects={'loss_function': loss})
     elif loss == 'euclidian':
         tf_mappingR = distances.euclid_matrix((invert_dict(dictChord),invert_dict(dictChord)))
         tf_mappingR = (tf_mappingR + np.mean(tf_mappingR))
@@ -57,14 +63,31 @@ def load_ace_model_keras(alpha, direct = "" ,loss = "tonnetz", seed = ""):
         tf_mappingR = (tf_mappingR) / np.max(tf_mappingR)
         tf_mapping = K.constant(tf_mappingR)
         loss=wrap_loss_function(tf_mapping = tf_mapping) 
-        ace_model = load_model(direct + 'model_ace_keras' + seed +'/' + modelName + '/' + modelName + '.hdf5', custom_objects={'loss_function': loss})
+        ace_model = load_model(modelName + '.hdf5', custom_objects={'loss_function': loss})
     elif loss == 'categorical_hinge':
         tf_mappingR = np.identity(len(list_chord_ace))
         tf_mapping = K.constant(tf_mappingR)
         loss=wrap_loss_function(tf_mapping = tf_mapping)
-        ace_model = load_model(direct + 'model_ace_keras' + seed +'/'+ modelName + '/' + modelName + '.hdf5', custom_objects={'loss_function': loss})
-    ace_model._make_predict_function()
+        ace_model = load_model(modelName + '.hdf5', custom_objects={'loss_function': loss})
+    #ace_model._make_predict_function() bug with new tensorflow version ?
     return ace_model, history, list_chord_ace, idx_test
+
+
+def load_ace_model_pytorch(alpha, direct = "" ,loss = "tonnetz", seed = ""):
+    dictChord, listChord = chordUtil.getDictChord(eval(alpha))
+    net = ACEmodels.ConvNet(None,len(listChord))
+    #net.load_state_dict(torch.load(args.foldName + '/' + args.modelName + '/' + args.modelName, map_location = args.device))
+    device = torch.device('cpu')
+    net.to(device)
+    net.load_state_dict(torch.load(direct, map_location = device))
+    # Print model 
+    #if args.device is not "cpu":
+    #    net.to(args.device)
+    print(net)
+    def count_parameters(model):
+        return sum(p.numel() for p in model.parameters() if p.requires_grad)
+    print(count_parameters(net))
+    return net, listChord   
 #%%
 def track_to_cqt(track, sr = 44100):
     """
@@ -76,7 +99,7 @@ def track_to_cqt(track, sr = 44100):
     data = pump.transform(track, sr=sr)
     return data
     
-def get_chords(ace_model, list_chord_ace, data, start_ms, end_ms, sr = 44100):
+def get_chords_keras(ace_model, list_chord_ace, data, start_ms, end_ms, sr = 44100):
     """
     Get the associated chord of a cqt vector interval with an ace model
     """
@@ -93,6 +116,28 @@ def get_chords(ace_model, list_chord_ace, data, start_ms, end_ms, sr = 44100):
     y = np.asarray(y).reshape(1,15,216,1)
     localpred = ace_model.predict(y)
     return localpred, list_chord_ace[np.argmax(localpred[0])], np.argmax(localpred[0]), round(np.max(localpred[0]),6)
+
+def get_chords_pytorch(ace_model, list_chord_ace, spec, start_ms, end_ms, sr = 44100):
+    """
+    Get the associated chord of a cqt vector interval with an ace model
+    """
+    hop_length = 512*4
+    y = []
+    data_cut = []
+    #select the interval
+    data_cut = spec[round((start_ms*sr/1000)/hop_length):round((end_ms*sr/1000)/hop_length)] 
+    #taking the mean over the interval
+    data = np.mean(data_cut, axis = 0)
+    #data = data.reshape(105)
+    for i in range(15):
+        y.append(data)
+    y = np.asarray(y)
+    y = np.transpose(y)
+    y = y.reshape(1,1,105,15)
+    y_tens = torch.from_numpy(y)
+    ace_model.eval()
+    localpred = ace_model(y_tens).detach().numpy()
+    return localpred[0], list_chord_ace[np.argmax(localpred[0])], np.argmax(localpred[0]), round(np.max(localpred[0]),6)
 
 #%%
 def multiscale_chords(ace_model, list_chord_ace, data, indice_reduc = 10, sr = 44100):
