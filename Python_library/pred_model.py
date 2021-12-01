@@ -351,8 +351,17 @@ def init_gen_model_wo_arg(lenSeq, lenPred, n_categories, hidden, latent, decim, 
 def getSeq(modelGen, seed, dictChord, listChord, args_f = args, bornInf_f = bornInf,  bornSup_f = bornSup):
     x = []
     global model_type
+    chord_alph = ""
+    if len(dictChord)==25:
+        chord_alph = "a0"
+    elif len(dictChord)==85:  
+        chord_alph = "a2"
+    elif len(dictChord)==169:
+        chord_alph = "a5"
+    else:
+        print("not known dictionary")
     for i in seed:
-        x.append(dictChord[i])
+        x.append(dictChord[chordUtil.reduChord(i,chord_alph)])
     x = torch.IntTensor(x).to(args_f.device)
     x = torch.nn.functional.one_hot(x.to(torch.int64), len(dictChord)).float()
     # Do the decimation
@@ -406,13 +415,13 @@ def getSeq_multi(list_vect, beta):
     final_vect = []
     final_vect.append(np.array(list_vect[0].copy(),dtype=float))
     new_list_vect = np.array(list_vect.copy(),dtype=float)
-    print("beta is equal to  " + str(beta))
+    print("beta is equal to  " + str(beta/100))
     #for every step except the last prediction
     for i in range(7):
         #for every vect prob remaining
         for j in range(len(list_vect)-1):
             if j+i+1 < 8:
-                contrib_prev = np.multiply(1/((j+2)**beta),list_vect[j][0][i+j+1])
+                contrib_prev = np.multiply((beta/100)/(j+2),list_vect[j][0][i+j+1])
                 final_vect[0][0][i] =  np.add(np.array(contrib_prev, dtype=float),final_vect[0][0][i])
     final_vect = torch.tensor(final_vect)
     final_vect = torch.reshape(final_vect,(8,-1))

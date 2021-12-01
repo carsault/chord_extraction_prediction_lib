@@ -28,6 +28,10 @@
 		<data>
 		hsbtwPPpYoAGEX5ymr9z0vftna8=
 		</data>
+		<key>Resources/libomp.dylib</key>
+		<data>
+		RXJQY8uG2aeLa8ojaznP91LQ2BI=
+		</data>
 		<key>Resources/libshm.dylib</key>
 		<data>
 		+aV9OAPCg88bHw/U7vwJ7XxWWJE=
@@ -119,6 +123,17 @@
 			<key>hash2</key>
 			<data>
 			JElPf6xDq8pVTSPwEAByv3x+nOFrHPY/kRV71YtGzy4=
+			</data>
+		</dict>
+		<key>Resources/libomp.dylib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			RXJQY8uG2aeLa8ojaznP91LQ2BI=
+			</data>
+			<key>hash2</key>
+			<data>
+			UepDCCuZgDQ7c28nVYAszyJ1JjHQaOnMqfkytuLI8ww=
 			</data>
 		</dict>
 		<key>Resources/libshm.dylib</key>

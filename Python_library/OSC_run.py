@@ -225,7 +225,7 @@ def printing_handler(addr, tags, stuff, source):
             #print(index)
             beta = stuff
         beta = beta[0]
-        print(beta)
+        print(beta/100)
         oscmsggen.append(beta)
         c.send(oscmsggen)
         oscmsggen.clearData()
