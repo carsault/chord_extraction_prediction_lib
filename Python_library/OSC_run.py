@@ -37,6 +37,8 @@ list_chord_ace = None
 n_fft = None
 essensia_cqt = None
 modelGen = None
+list_pred = []
+beta = 0
 
 
 # Start OSCServer
@@ -187,10 +189,44 @@ def printing_handler(addr, tags, stuff, source):
             #print(index)
             seed.append(index)
         print(dictChord)
-        seqPred, vecProb = getSeq(modelGen, seed, dictChord, listChord)
+        local_seqPred, vecProb = getSeq(modelGen, seed, dictChord, listChord)
         # send end of analysis signal through OSC to Max
+        oscmsggen.append(local_seqPred)
+        oscmsggen.append(vecProb)
+        print(local_seqPred)
+        c.send(oscmsggen)
+        oscmsggen.clearData()
+
+    if addr=='/gen_memory':
+        seed = []
+        global beta
+        global list_pred
+        print(dictChord)
+        for index in stuff:
+            #print(index)
+            seed.append(index)
+        #print(dictChord)
+        local_seqPred, vecProb = getSeq(modelGen, seed, dictChord, listChord)
+        # send end of analysis signal through OSC to Max
+        #oscmsggen.append(vecProb)
+        list_pred.append(vecProb)
+        if len(list_pred) > 8:
+            list_pred.pop(0)
+        seqPred, prob = getSeq_multi(list_pred, beta)
         oscmsggen.append(seqPred)
-        print(seqPred)
+        oscmsggen.append(prob)
+        c.send(oscmsggen)
+        oscmsggen.clearData()
+
+    if addr=='/weight_param':
+        seed = []
+        print("weight param")
+        for index in stuff:
+            #print(index)
+            beta = stuff
+        beta = beta[0]
+        print(beta)
+        oscmsggen.append(beta)
         c.send(oscmsggen)
         oscmsggen.clearData()
 #%%
@@ -198,6 +234,8 @@ s.addMsgHandler("/define_ace_model", printing_handler)
 s.addMsgHandler("/define_pred_model", printing_handler)         
 s.addMsgHandler("/python_ace_memory", printing_handler)
 s.addMsgHandler("/gen", printing_handler)
+s.addMsgHandler("/gen_memory", printing_handler)
+s.addMsgHandler("/weight_param", printing_handler)
 st = threading.Thread(target=s.serve_forever)
 st.start()
 '''

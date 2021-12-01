@@ -347,7 +347,7 @@ def init_gen_model_wo_arg(lenSeq, lenPred, n_categories, hidden, latent, decim, 
     # Begin testing
     net.load_state_dict(torch.load(foldNameGen + '/' + modelName + '/' + modelName, map_location = device))
     return net
-
+#%%
 def getSeq(modelGen, seed, dictChord, listChord, args_f = args, bornInf_f = bornInf,  bornSup_f = bornSup):
     x = []
     global model_type
@@ -386,11 +386,44 @@ def getSeq(modelGen, seed, dictChord, listChord, args_f = args, bornInf_f = born
             decoder_output, accDiscr = modelGen.test(x)
             out = decoder_output[:,0,:,:].transpose(0,1).view(1,int(args.lenPred/decim),n_categories+2)
     
+    out = F.softmax(out, dim=2)
     out = out.cpu().numpy()
+
     #out = out.view(x.shape[0], -1, y.shape[1]).max(dim=1)[1]
     pred = []
     for i in range(len(out[0])):
         pred.append(np.argmax(out[0][i]))  
+    #out = out.view(1, -1, args.lenPred).max(dim=1)[1]
+    #out = out.max(dim=1)[1]
+    seqPred = []
+    #out = out[0].tolist()
+    for i in pred:
+        seqPred.append(listChord[i])
+    #print(seqPred)
+    return seqPred, out
+#%%
+def getSeq_multi(list_vect, beta):
+    final_vect = []
+    final_vect.append(np.array(list_vect[0].copy(),dtype=float))
+    new_list_vect = np.array(list_vect.copy(),dtype=float)
+    print("beta is equal to  " + str(beta))
+    #for every step except the last prediction
+    for i in range(7):
+        #for every vect prob remaining
+        for j in range(len(list_vect)-1):
+            if j+i+1 < 8:
+                contrib_prev = np.multiply(1/((j+2)**beta),list_vect[j][0][i+j+1])
+                final_vect[0][0][i] =  np.add(np.array(contrib_prev, dtype=float),final_vect[0][0][i])
+    final_vect = torch.tensor(final_vect)
+    final_vect = torch.reshape(final_vect,(8,-1))
+    print(final_vect.size())
+    #out = F.softmax(final_vect, dim=1)
+    out = final_vect
+    out = out.cpu().numpy()
+    #out = out.view(x.shape[0], -1, y.shape[1]).max(dim=1)[1]
+    pred = []
+    for i in range(len(out)):
+        pred.append(np.argmax(out[i]))  
     #out = out.view(1, -1, args.lenPred).max(dim=1)[1]
     #out = out.max(dim=1)[1]
     seqPred = []
