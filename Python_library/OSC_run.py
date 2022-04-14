@@ -172,12 +172,14 @@ def printing_handler(addr, tags, stuff, source):
                     start_ms = float(segmentation[i][0])
                     end_ms = float(segmentation[i+1][0])
                     loc_pred_vect, loc_pred_lab, loc_pred_id, max_prob = get_chords_pytorch(ace_model, list_chord_ace, spec, start_ms, end_ms, sr = 44100)
-                    list_chords.append(segmentation[i][0] + " "  + segmentation[i+1][0] + " " + str(loc_pred_id) +  " " + str(loc_pred_lab) + "\n")
+                    #list_chords.append(segmentation[i][0] + " "  + segmentation[i+1][0] + " " + str(loc_pred_id) +  " " + str(loc_pred_lab) + "\n") with the chords column
+                    list_chords.append(segmentation[i][0] + " "  + str((float(segmentation[i+1][0])-float(segmentation[i][0]))) + " " + "1" +  " " + str(loc_pred_id) + "\n") #for DYCI2
         # save chord label information 
         file_ace = open(name_track + "_ace_label.txt","w+")
         file_ace.writelines(list_chords)
         # send end of analysis signal through OSC to Max
-        oscmsg.append("read \"" + name_track + "_ace_label.txt\" @name chords")
+        oscmsg.append("read \"" + name_track + "_ace_label.txt\" @name chords") #with the chords column
+        #oscmsg.append("read \"" + name_track + "_ace_label.txt\" @name seg") #for DYCI2
         print(oscmsg)
         c.send(oscmsg)
         oscmsg.clearData()

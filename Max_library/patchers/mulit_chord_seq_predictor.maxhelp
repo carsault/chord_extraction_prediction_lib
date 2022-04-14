@@ -39,6 +39,23 @@
 		"subpatcher_template" : "",
 		"boxes" : [ 			{
 				"box" : 				{
+					"fontface" : 0,
+					"fontsize" : 13.0,
+					"id" : "obj-12",
+					"linecount" : 3,
+					"maxclass" : "comment",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 297.0, 365.5, 327.0, 50.0 ],
+					"presentation" : 1,
+					"presentation_linecount" : 7,
+					"presentation_rect" : [ 105.629311999999999, 110.500045999999998, 148.0, 108.0 ],
+					"text" : "The last argument is a parameter that inform with whcih intensity the system use the previous predictions to enhance the current prediction."
+				}
+
+			}
+, 			{
+				"box" : 				{
 					"id" : "obj-4",
 					"maxclass" : "slider",
 					"numinlets" : 1,
