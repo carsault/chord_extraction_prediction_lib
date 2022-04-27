@@ -16,6 +16,7 @@ from utilities.chordUtil import *
 
 from utilities import ACEmodels
 import torch
+import os
 
 from keras.models import load_model
 import numpy as np
@@ -182,6 +183,20 @@ def multiscale_chords(ace_model, list_chord_ace, data, indice_reduc = 10, sr = 4
         max_prob = np.argmax(localpred,1)
         vect_prob.append(max_prob)
     return vect_prob
+
+def get_cqt_from_txt(name_track_cqt):
+    spec_cqt = []
+    i=0
+    with open(name_track_cqt) as fp:
+        line = fp.readline()
+        while line:
+            i+=1
+            spec_cqt.append(line)
+            line = fp.readline()
+    #os.remove(name_track_cqt)
+    spec_cqt.pop()#check if the first cqt line is always 0
+    spec_cqt = [x.split(' ') for x in spec_cqt]
+    return spec_cqt
 
 #%% test zone
 '''

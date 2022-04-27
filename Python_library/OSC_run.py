@@ -18,9 +18,11 @@ import threading
 import os
 from librosa.core import cqt,load,note_to_hz
 
-import essentia
-import essentia.standard
-from essentia.standard import *
+# TOREMOVE
+#import essentia
+#import essentia.standard
+#from essentia.standard import *
+# TOREMOVE
 
 
 path = os.getcwd()
@@ -91,8 +93,8 @@ def printing_handler(addr, tags, stuff, source):
             # find a way to differenciate keras and pytorch ?
             ace_model, list_chord_ace = load_ace_model_pytorch(alpha, name_model)
             ace_framework = "pytorch"
-            fmin = 130
-            essensia_cqt = ConstantQ(binsPerOctave = 24, numberBins = 105, minFrequency = fmin, scale=1, threshold=0.01, zeroPhase = False)
+            # TOREMOVEfmin = 130
+            # TOREMOVEessensia_cqt = ConstantQ(binsPerOctave = 24, numberBins = 105, minFrequency = fmin, scale=1, threshold=0.01, zeroPhase = False)
             n_fft = int(65536/4)
         #else:
         #    print("ace_framework not known")
@@ -146,7 +148,6 @@ def printing_handler(addr, tags, stuff, source):
                 line = fp.readline()
             if stuff[1] == 'mubu':
                 os.remove(name_seg)
-
         #segmentation = [x.strip() for x in segmentation]
         segmentation = [x.split(' ') for x in segmentation]
         print(ace_model)
@@ -160,14 +161,17 @@ def printing_handler(addr, tags, stuff, source):
                 #print(segmentation[i][0] + " "  + segmentation[i+1][0] + " " + str(loc_pred_id) +  " " + str(loc_pred_lab) + "\n")
                 list_chords.append(segmentation[i][0] + " "  + segmentation[i+1][0] + " " + str(loc_pred_id) +  " " + str(loc_pred_lab) + "\n")
         elif ace_framework is "pytorch":
-                sr = 44100 
-                wav,sr = load(name_track,sr=sr)
-                for frame in FrameGenerator(wav, frameSize=n_fft, hopSize=512*4, startFromZero=False, lastFrameToEndOfFile = False):
-                    Cstq = essensia_cqt(frame)
-                    Cstq = np.abs(Cstq)
-                    Cstq /= np.sqrt(n_fft).astype(np.float32)
-                    spec.append(Cstq)
-                spec = np.asarray(spec)
+                # TOREMOVEsr = 44100 
+                # TOREMOVEwav,sr = load(name_track,sr=sr)
+                # TOREMOVEfor frame in FrameGenerator(wav, frameSize=n_fft, hopSize=512*4, startFromZero=False, lastFrameToEndOfFile = False):
+                # TOREMOVE    Cstq = essensia_cqt(frame)
+                # TOREMOVE    Cstq = np.abs(Cstq)
+                # TOREMOVE    Cstq /= np.sqrt(n_fft).astype(np.float32)
+                # TOREMOVE    spec.append(Cstq)
+                spec = get_cqt_from_txt(name_track + '_cqt.txt')
+                spec = np.asarray(spec, dtype=np.float32)
+                spec = np.abs(spec)
+                spec /= np.sqrt(n_fft).astype(np.float32)
                 for i in range(len(segmentation)-1):
                     start_ms = float(segmentation[i][0])
                     end_ms = float(segmentation[i+1][0])
