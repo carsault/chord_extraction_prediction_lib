@@ -58,8 +58,10 @@ c = OSC.OSCClient()
 c.connect(('127.0.0.1', 9009))   # connect to Max
 oscmsg = OSC.OSCMessage()
 oscmsg.setAddress("/chord_mem")
-oscmsggen = OSC.OSCMessage()
-oscmsggen.setAddress("/gen_seq")
+oscmsggenSeq = OSC.OSCMessage()
+oscmsggenVec = OSC.OSCMessage()
+oscmsggenSeq.setAddress("/gen_seq")
+oscmsggenVec.setAddress("/gen_vec")
 #oscmsggen = OSC.OSCMessage()
 #oscmsggen.setAddress("/gen")
 
@@ -118,7 +120,6 @@ def printing_handler(addr, tags, stuff, source):
         else:
             print("No chord alphabet found in model's name!")
         modelGen = init_gen_model(name_model, alpha)
-        print("ok")
         global dictChord
         global listChord
         dictChord, listChord = chordUtil.getDictChord(eval(alpha))
@@ -150,7 +151,6 @@ def printing_handler(addr, tags, stuff, source):
                 os.remove(name_seg)
         #segmentation = [x.strip() for x in segmentation]
         segmentation = [x.split(' ') for x in segmentation]
-        print(ace_model)
         # get chord for each section
         if ace_framework is "keras":
             data = track_to_cqt(name_track, sr = 44100)
@@ -169,6 +169,7 @@ def printing_handler(addr, tags, stuff, source):
                 # TOREMOVE    Cstq /= np.sqrt(n_fft).astype(np.float32)
                 # TOREMOVE    spec.append(Cstq)
                 spec = get_cqt_from_txt(name_track + '_cqt.txt')
+                os.remove(name_track + '_cqt.txt')
                 spec = np.asarray(spec, dtype=np.float32)
                 spec = np.abs(spec)
                 spec /= np.sqrt(n_fft).astype(np.float32)
@@ -177,7 +178,8 @@ def printing_handler(addr, tags, stuff, source):
                     end_ms = float(segmentation[i+1][0])
                     loc_pred_vect, loc_pred_lab, loc_pred_id, max_prob = get_chords_pytorch(ace_model, list_chord_ace, spec, start_ms, end_ms, sr = 44100)
                     #list_chords.append(segmentation[i][0] + " "  + segmentation[i+1][0] + " " + str(loc_pred_id) +  " " + str(loc_pred_lab) + "\n") with the chords column
-                    list_chords.append(segmentation[i][0] + " "  + str((float(segmentation[i+1][0])-float(segmentation[i][0]))) + " " + "1" +  " " + str(loc_pred_id) + "\n") #for DYCI2
+                    #list_chords.append(segmentation[i][0] + " "  + str((float(segmentation[i+1][0])-float(segmentation[i][0]))) + " " + "1" +  " " + str(loc_pred_id) + "\n") #for DYCI2
+                    list_chords.append(segmentation[i][0] + " "  + str((float(segmentation[i+1][0])-float(segmentation[i][0]))) + " " + "1" +  " " + str(loc_pred_id) +  " " + str(loc_pred_lab) + "\n") #for DYCI2 with chord label
         # save chord label information 
         file_ace = open(name_track + "_ace_label.txt","w+")
         file_ace.writelines(list_chords)
@@ -197,11 +199,13 @@ def printing_handler(addr, tags, stuff, source):
         print(dictChord)
         local_seqPred, vecProb = getSeq(modelGen, seed, dictChord, listChord)
         # send end of analysis signal through OSC to Max
-        oscmsggen.append(local_seqPred)
-        oscmsggen.append(vecProb)
+        oscmsggenSeq.append(local_seqPred)
+        oscmsggenVec.append(vecProb)
         print(local_seqPred)
-        c.send(oscmsggen)
-        oscmsggen.clearData()
+        c.send(oscmsggenSeq)
+        c.send(oscmsggenVec)
+        oscmsggenSeq.clearData()
+        oscmsggenVec.clearData()
 
     if addr=='/gen_memory':
         seed = []
@@ -219,10 +223,12 @@ def printing_handler(addr, tags, stuff, source):
         if len(list_pred) > 8:
             list_pred.pop(0)
         seqPred, prob = getSeq_multi(list_pred, beta)
-        oscmsggen.append(seqPred)
-        oscmsggen.append(prob)
-        c.send(oscmsggen)
-        oscmsggen.clearData()
+        oscmsggenSeq.append(seqPred)
+        oscmsggenVec.append(prob)
+        c.send(oscmsggenSeq)
+        c.send(oscmsggenVec)
+        oscmsggenSeq.clearData()
+        oscmsggenVec.clearData()
 
     if addr=='/weight_param':
         seed = []
