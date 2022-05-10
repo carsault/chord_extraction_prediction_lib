@@ -3,7 +3,7 @@
 
 The Chord extraction and prediction library contains a collection of tools for automatic chord extraction and chord sequence continuation. 
 
-If using the library, please quote: __NCarsault, T., Nika, J., Esling, P., & Assayag, G (2021). Combining Real-Time Extraction and Prediction of Musical Chord Progressions for Creative Applications. In Electronics. [(Article)](https://www.mdpi.com/2079-9292/10/21/2634).__
+If using the library, please quote: __Carsault, T., Nika, J., Esling, P., & Assayag, G (2021). Combining Real-Time Extraction and Prediction of Musical Chord Progressions for Creative Applications. In Electronics. [(Article)](https://www.mdpi.com/2079-9292/10/21/2634).__
 
 __Author:__ Tristan Carsault (IRCAM STMS LAB)
 __Contributors:__ Jérôme Nika (IRCAM STMS LAB), Philippe Esling (IRCAM STMS LAB), Diemo Schwarz (IRCAM STMS LAB), Antoine Caillon (IRCAM STMS LAB); 
