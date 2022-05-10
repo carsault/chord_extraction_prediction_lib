@@ -18,6 +18,15 @@ import threading
 import os
 from librosa.core import cqt,load,note_to_hz
 
+# If extra argument use parser
+parser = argparse.ArgumentParser(description='ACE server')
+# General
+parser.add_argument('--server_address',   type=str,   default='127.0.0.1',    help='address of the server')
+parser.add_argument('--send_port',   type=int,   default=9008,    help='send port of the server')
+parser.add_argument('--receive_port',   type=int,   default=9009,    help='send port of the server')
+args = parser.parse_args()
+print(args)
+
 # TOREMOVE
 #import essentia
 #import essentia.standard
@@ -45,7 +54,7 @@ beta = 0
 
 # Start OSCServer
 #receive_address = '127.0.0.1', 9001
-receive_address = '127.0.0.1', 9008
+receive_address = args.server_address, int(args.receive_port)
 
 print("Starting OSC Server")
 # OSC Server. There are three different types of server. 
@@ -55,15 +64,15 @@ s.addDefaultHandlers()
 
 c = OSC.OSCClient()
 #c.connect(('127.0.0.1', 9002))   # connect to Max for Live App
-c.connect(('127.0.0.1', 9009))   # connect to Max
+c.connect((args.server_address, int(args.send_port)))   # connect to Max
 oscmsg = OSC.OSCMessage()
 oscmsg.setAddress("/chord_mem")
 oscmsggenSeq = OSC.OSCMessage()
 oscmsggenVec = OSC.OSCMessage()
 oscmsggenSeq.setAddress("/gen_seq")
 oscmsggenVec.setAddress("/gen_vec")
-#oscmsggen = OSC.OSCMessage()
-#oscmsggen.setAddress("/gen")
+oscmsggen = OSC.OSCMessage()
+oscmsggen.setAddress("/gen")
 
 # define a message-handler function for the server to call.
 def printing_handler(addr, tags, stuff, source):
@@ -100,7 +109,7 @@ def printing_handler(addr, tags, stuff, source):
             n_fft = int(65536/4)
         #else:
         #    print("ace_framework not known")
-        print(ace_model)
+        #print(ace_model)
 
 
     if addr=='/define_pred_model':
@@ -135,6 +144,9 @@ def printing_handler(addr, tags, stuff, source):
         segmentation = []
         # load track
         name_track = stuff[0].lstrip("Macintosh HD:")
+        name_track = name_track.encode("latin-1")
+        name_track = name_track.decode('utf-8')
+
         print(name_track)
         # read segmentation info
         if stuff[1] != 'mubu':
@@ -152,7 +164,7 @@ def printing_handler(addr, tags, stuff, source):
         #segmentation = [x.strip() for x in segmentation]
         segmentation = [x.split(' ') for x in segmentation]
         # get chord for each section
-        if ace_framework is "keras":
+        if ace_framework == "keras":
             data = track_to_cqt(name_track, sr = 44100)
             for i in range(len(segmentation)-1):
                 start_ms = float(segmentation[i][0])
@@ -160,7 +172,7 @@ def printing_handler(addr, tags, stuff, source):
                 loc_pred_vect, loc_pred_lab, loc_pred_id, max_prob = get_chords_keras(ace_model, list_chord_ace, data, start_ms, end_ms, sr = 44100)
                 #print(segmentation[i][0] + " "  + segmentation[i+1][0] + " " + str(loc_pred_id) +  " " + str(loc_pred_lab) + "\n")
                 list_chords.append(segmentation[i][0] + " "  + segmentation[i+1][0] + " " + str(loc_pred_id) +  " " + str(loc_pred_lab) + "\n")
-        elif ace_framework is "pytorch":
+        elif ace_framework == "pytorch":
                 # TOREMOVEsr = 44100 
                 # TOREMOVEwav,sr = load(name_track,sr=sr)
                 # TOREMOVEfor frame in FrameGenerator(wav, frameSize=n_fft, hopSize=512*4, startFromZero=False, lastFrameToEndOfFile = False):
@@ -180,9 +192,14 @@ def printing_handler(addr, tags, stuff, source):
                     #list_chords.append(segmentation[i][0] + " "  + segmentation[i+1][0] + " " + str(loc_pred_id) +  " " + str(loc_pred_lab) + "\n") with the chords column
                     #list_chords.append(segmentation[i][0] + " "  + str((float(segmentation[i+1][0])-float(segmentation[i][0]))) + " " + "1" +  " " + str(loc_pred_id) + "\n") #for DYCI2
                     list_chords.append(segmentation[i][0] + " "  + str((float(segmentation[i+1][0])-float(segmentation[i][0]))) + " " + "1" +  " " + str(loc_pred_id) +  " " + str(loc_pred_lab) + "\n") #for DYCI2 with chord label
-        # save chord label information 
+        # save chord label information
+
+        
         file_ace = open(name_track + "_ace_label.txt","w+")
         file_ace.writelines(list_chords)
+        #check why osc doesn't support utf-8 encoding
+        #name_track = name_track.encode('utf-8') 
+        #name_track = name_track.decode("latin-1")
         # send end of analysis signal through OSC to Max
         oscmsg.append("read \"" + name_track + "_ace_label.txt\" @name chords") #with the chords column
         #oscmsg.append("read \"" + name_track + "_ace_label.txt\" @name seg") #for DYCI2
@@ -211,7 +228,6 @@ def printing_handler(addr, tags, stuff, source):
         seed = []
         global beta
         global list_pred
-        print(dictChord)
         for index in stuff:
             #print(index)
             seed.append(index)

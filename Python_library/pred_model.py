@@ -413,7 +413,7 @@ def getSeq(modelGen, seed, dictChord, listChord, args_f = args, bornInf_f = born
 #%%
 def getSeq_multi(list_vect, beta):
     final_vect = []
-    final_vect.append(np.array(list_vect[0].copy(),dtype=float))
+    final_vect.append(np.array(list_vect[len(list_vect)-1].copy(),dtype=float))
     new_list_vect = np.array(list_vect.copy(),dtype=float)
     print("beta is equal to  " + str(beta/100))
     #for every step except the last prediction
@@ -421,7 +421,7 @@ def getSeq_multi(list_vect, beta):
         #for every vect prob remaining
         for j in range(len(list_vect)-1):
             if j+i+1 < 8:
-                contrib_prev = np.multiply((beta/100)/(j+2),list_vect[j][0][i+j+1])
+                contrib_prev = np.multiply((beta/100)/(j+2),list_vect[len(list_vect)-j-1][0][i+j+1])
                 final_vect[0][0][i] =  np.add(np.array(contrib_prev, dtype=float),final_vect[0][0][i])
     final_vect = torch.tensor(final_vect)
     final_vect = torch.reshape(final_vect,(8,-1))
