@@ -39,11 +39,11 @@ This repository contains:
 * Max shell object: already included in DYCI2lib/Max_Library/external (but check the repository https://github.com/jeremybernstein/shell/releases !) 
 
 ## Installation
-* Drag the DYCI2lib directory wherever you want (but not in Max packages / libraries !) and add its path into Max's search path (in Max: Options/File preferences... then add the path WITH THE SUBFOLDERS). /!\ The path of this folder must not contain any whitespace.
+* Drag the chord_extraction_prediction_lib directory wherever you want (but not in Max packages / libraries !) and add its path into Max's search path (in Max: Options/File preferences... then add the path WITH THE SUBFOLDERS). /!\ The path of this folder must not contain any whitespace.
 
 ## Python configuration
 * Download and install the **last** version of Python **3** (https://www.python.org/downloads).
-* Open Terminal to install the dependencies: `cd [DRAG_AND_DROP_THE_DIRECTORY_Dyci2lib]`, enter, `pip3 install -r requirements.txt --user`, enter.
+* Open Terminal to install the dependencies: `cd [DRAG_AND_DROP_THE_DIRECTORY_chord_extraction_prediction_lib]`, enter, `pip3 install -r requirements.txt --user`, enter.
 
 ------
 ## Build instruction for the real-time chord extraction MXO file
