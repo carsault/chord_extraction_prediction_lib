@@ -46,7 +46,7 @@ This repository contains:
 * Open Terminal to install the dependencies: `cd [DRAG_AND_DROP_THE_DIRECTORY_Dyci2lib]`, enter, `pip3 install -r requirements.txt --user`, enter.
 
 ------
-## MXO file for chord extraction build instruction
+## Build instruction for the real-time chord extraction MXO file
 
 ### macOS
 
