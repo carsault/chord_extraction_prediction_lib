@@ -70,5 +70,5 @@ make
 Please write to `tristan.carsault@ircam.fr` for any question, or to share with us your projects using Chord extraction and preidiction library !
 
 ## License
-GPL v3
+MIT License
 
