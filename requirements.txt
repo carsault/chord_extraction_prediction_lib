@@ -1,0 +1,8 @@
+jams==0.3.4
+keras==2.6.0
+librosa==0.8.1
+mir_eval==0.6
+numpy==1.21.2
+scikit_learn==1.0.2
+six==1.15.0
+torch==1.9.0
