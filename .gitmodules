@@ -1,3 +1,0 @@
-[submodule "Chord_extrc_external/src/frontend/maxmsp/min-api"]
-	path = Chord_extrc_external/src/frontend/maxmsp/min-api
-	url = https://github.com/Cycling74/min-api.git
