@@ -67,7 +67,7 @@ make
 - Copy the produced `.mxo` external (located in `Chord_extrc_external/src/externals`) inside `chord_extraction_prediction_lib/Max_library/external`
 
 ## Troubleshooting
-Please write to `tristan.carsault@ircam.fr` for any question, or to share with us your projects using Chord extraction and preidiction library !
+Please write to `tristan.carsault@ircam.fr` for any question, or to share with us your projects using Chord extraction and prediction library !
 
 ## License
 MIT License
