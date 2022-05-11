@@ -11,7 +11,7 @@ __REACH research project :__ Gérard Assayag (Ircam, PI)
 
 
 ------
-_**To use Chord extraction and prediction applications in Max directly, please go to the [Release page](https://github.com/%%%/releases) that contains a release version of Chord extraction and prediction library ready to be used as a Max library. The following sections of this document are intended for developers wishing to craft the Python core of the libary and generate .mxo C++ external.**_
+_**To use Chord extraction and prediction applications in Max directly, please go to the [Release page](https://github.com/carsault/chord_extraction_prediction_lib/releases) that contains a release version of Chord extraction and prediction library ready to be used as a Max library. The following sections of this document are intended for developers wishing to craft the Python core of the libary and generate .mxo C++ external.**_
 
 ------
 
@@ -36,7 +36,7 @@ This repository contains:
 
 ## Externals
 * Mubu for Max: Open Max, File / Show Package Manager, Search "Mubu for Max", Install.
-* Max shell object: already included in DYCI2lib/Max_Library/external (but check the repository https://github.com/jeremybernstein/shell/releases !) 
+* Max shell object: already included in chord_extraction_prediction_lib/Max_Library/external (but check the repository https://github.com/jeremybernstein/shell/releases !) 
 
 ## Installation
 * Drag the chord_extraction_prediction_lib directory wherever you want (but not in Max packages / libraries !) and add its path into Max's search path (in Max: Options/File preferences... then add the path WITH THE SUBFOLDERS). /!\ The path of this folder must not contain any whitespace.
@@ -50,7 +50,7 @@ This repository contains:
 
 ### macOS
 
-Pre-built binaries are available in the [release section](https://github.com/***/releases) of this repo.
+Pre-built binaries are available in the [release section](https://github.com/carsault/chord_extraction_prediction_lib/releases) of this repo.
 
 - Download libtorch 1.10 (CPU) [here](https://download.pytorch.org/libtorch/cpu/libtorch-macos-1.10.1.zip) and unzip it to a known directory
 - Run the following commands:
