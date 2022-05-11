@@ -11,7 +11,7 @@ __REACH research project :__ Gérard Assayag (Ircam, PI)
 
 
 ------
-_**To use Chord extraction and prediction applications in Max directly, please go to the [Release page](https://github.com/carsault/chord_extraction_prediction_lib/releases) that contains a release version of Chord extraction and prediction library ready to be used as a Max library. The following sections of this document are intended for developers wishing to craft the Python core of the libary and generate .mxo C++ external.**_
+_**To use Chord extraction and prediction applications in Max directly, please go to the [Release page](https://github.com/carsault/chord_extraction_prediction_lib/releases) that contains a release version of Chord extraction and prediction library ready to be used as a Max library. The following sections of this document are intended for developers wishing to craft the Python core of the libary and build .mxo external.**_
 
 ------
 
