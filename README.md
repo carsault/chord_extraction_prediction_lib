@@ -64,7 +64,7 @@ cmake ../src/ -DCMAKE_PREFIX_PATH=/path/to/libtorch -DCMAKE_BUILD_TYPE=Release
 make
 ```
 
-- Copy the produced `.mxo` external (located in 'Chord_extrc_external/src/externals') inside `chord_extraction_prediction_lib/Max_library/external`
+- Copy the produced `.mxo` external (located in `Chord_extrc_external/src/externals`) inside `chord_extraction_prediction_lib/Max_library/external`
 
 ## Troubleshooting
 Please write to `tristan.carsault@ircam.fr` for any question, or to share with us your projects using Chord extraction and preidiction library !
