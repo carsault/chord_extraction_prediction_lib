@@ -179,10 +179,10 @@
 					"numinlets" : 5,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 10.499878000000002, 423.0, 311.0, 22.0 ],
+					"patching_rect" : [ 10.499878000000002, 423.0, 197.0, 22.0 ],
 					"presentation" : 1,
 					"presentation_rect" : [ 10.499878000000002, 423.0, 311.0, 22.0 ],
-					"text" : "Launch_server_script_ACE.maxpat 127.0.0.1 9001 9002"
+					"text" : "Launch_server_script_ACE.maxpat"
 				}
 
 			}
