@@ -21,7 +21,7 @@ This repository contains:
 
 * __Tutorials__  with complete standard chord extraction and prediction functionalities. These self-contained Max applications and can be used as such by users who are not interested in building new patches.
 
-* The __Max library__ of patches interfacing with the extraction and prediction engine developped in Python. 
+* The __Max library__ of patches interfacing with the extraction and prediction engine developed in Python. 
 
 * The __Python library__, defining models and tools for creative generation of sequences (and in particular musical sequences) from models of sequences. It implements several models, generative heuristics, time management strategies, and architectures of interactive agents. 
 
